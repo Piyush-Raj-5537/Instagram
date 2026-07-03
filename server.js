@@ -623,6 +623,7 @@ app.get('/api/users/:username', authenticateToken, (req, res) => {
               location: p.location,
               filterClass: p.filter_class,
               likes: 0, // simple mock
+              likedBy: [], // add array definition
               comments: [], // simple mock
               timestamp: 'Just now'
             }));

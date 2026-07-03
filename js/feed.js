@@ -123,7 +123,7 @@ function renderPosts(container) {
     card.className = 'post-card';
     card.dataset.id = post.id;
     
-    const hasLiked = post.likedBy.includes(state.currentUser.username);
+    const hasLiked = post.likedBy && post.likedBy.includes(state.currentUser.username);
     
     card.innerHTML = `
       <div class="post-header">
@@ -241,7 +241,7 @@ function renderPosts(container) {
     function handleLike() {
       const updated = toggleLikePost(post.id);
       if (updated) {
-        const isLiked = post.likedBy.includes(state.currentUser.username);
+        const isLiked = post.likedBy && post.likedBy.includes(state.currentUser.username);
         likeBtn.classList.toggle('liked', isLiked);
         likeBtn.querySelector('i').className = isLiked ? 'fas fa-heart' : 'far fa-heart';
         card.querySelector('.post-likes-count').textContent = `${post.likes.toLocaleString()} likes`;

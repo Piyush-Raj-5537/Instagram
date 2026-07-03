@@ -1,4 +1,4 @@
-const CACHE_NAME = 'insta-clone-v1';
+const CACHE_NAME = 'insta-clone-v2';
 const ASSETS = [
   './',
   './index.html',

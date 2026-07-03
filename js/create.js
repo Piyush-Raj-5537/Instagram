@@ -1,5 +1,4 @@
 import { addPost } from './state.js';
-import { showToast } from './app.js';
 
 let selectedImageFile = null;
 let selectedImageSrc = '';
@@ -202,7 +201,7 @@ function renderEditScreen(container) {
         filterClass: selectedFilterClass
       });
 
-      showToast('Post shared successfully! 🚀', 'success');
+      document.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Post shared successfully! 🚀', type: 'success' } }));
 
       // Trigger navigate to home feed
       const navHome = document.querySelector('[data-view="feed"]');
@@ -212,7 +211,7 @@ function renderEditScreen(container) {
     } catch (e) {
       shareBtn.textContent = 'Share';
       shareBtn.disabled = false;
-      showToast('Failed to share post', 'error');
+      document.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Failed to share post', type: 'error' } }));
     }
   });
 }

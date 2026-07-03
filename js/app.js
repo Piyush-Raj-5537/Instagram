@@ -327,6 +327,11 @@ export function showToast(message, type = '') {
   }, 3000);
 }
 
+// Global Custom Toast Event Listener to prevent circular imports
+document.addEventListener('show-toast', (e) => {
+  showToast(e.detail.message, e.detail.type);
+});
+
 // Badge Counter Updates
 export function updateBadgeCounts() {
   const notifBadges = document.querySelectorAll('#mobile-notif-btn .badge, #nav-notifications .badge');

@@ -267,7 +267,7 @@ export function openPostDetailsModal(postId) {
 }
 
 function renderPostDetailsDialog(modal, post) {
-  const isLiked = post.likedBy.includes(state.currentUser.username);
+  const isLiked = post.likedBy && post.likedBy.includes(state.currentUser.username);
   
   modal.innerHTML = `
     <div class="post-details-dialog">
@@ -383,7 +383,7 @@ function renderPostDetailsDialog(modal, post) {
   function handleLike() {
     const updated = toggleLikePost(post.id);
     if (updated) {
-      const currentlyLiked = post.likedBy.includes(state.currentUser.username);
+      const currentlyLiked = post.likedBy && post.likedBy.includes(state.currentUser.username);
       likeBtn.classList.toggle('liked', currentlyLiked);
       likeBtn.querySelector('i').className = currentlyLiked ? 'fas fa-heart' : 'far fa-heart';
       modal.querySelector('.details-likes-count').textContent = `${post.likes.toLocaleString()} likes`;

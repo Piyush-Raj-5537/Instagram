@@ -1,7 +1,6 @@
 // Authentication Views Module
 
 import { loginUser, registerUser } from './state.js';
-import { switchView, showToast } from './app.js';
 
 export function renderLogin(container) {
   container.innerHTML = `
@@ -70,13 +69,13 @@ export function renderLogin(container) {
 
     try {
       await loginUser(usernameOrEmail, password);
-      showToast('Logged in successfully!', 'success');
+      document.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Logged in successfully!', type: 'success' } }));
       // Force reload/navigation to Home
       window.location.reload(); 
     } catch (err) {
       btn.textContent = 'Log In';
       btn.disabled = false;
-      showToast(err.message || 'Incorrect credentials', 'error');
+      document.dispatchEvent(new CustomEvent('show-toast', { detail: { message: err.message || 'Incorrect credentials', type: 'error' } }));
     }
   });
 }
@@ -137,12 +136,12 @@ export function renderRegister(container) {
 
     try {
       await registerUser(username, name, email, password, bio);
-      showToast('Account registered successfully!', 'success');
+      document.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Account registered successfully!', type: 'success' } }));
       window.location.reload();
     } catch (err) {
       btn.textContent = 'Sign Up';
       btn.disabled = false;
-      showToast(err.message || 'Registration failed', 'error');
+      document.dispatchEvent(new CustomEvent('show-toast', { detail: { message: err.message || 'Registration failed', type: 'error' } }));
     }
   });
 }
