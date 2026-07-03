@@ -1,10 +1,13 @@
 import { addPost } from './state.js';
+import { showToast } from './app.js';
 
+let selectedImageFile = null;
 let selectedImageSrc = '';
 let selectedFilterClass = '';
 
 export function renderCreate(container) {
   // Reset local state variables
+  selectedImageFile = null;
   selectedImageSrc = '';
   selectedFilterClass = '';
 
@@ -67,6 +70,7 @@ function handleFileSelect(file, container) {
     alert('Please select a valid image file.');
     return;
   }
+  selectedImageFile = file;
 
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -182,24 +186,33 @@ function renderEditScreen(container) {
   });
 
   // Share action
-  shareBtn.addEventListener('click', () => {
+  shareBtn.addEventListener('click', async () => {
     const caption = container.querySelector('#creator-caption-field').value;
     const location = container.querySelector('#creator-location-field').value;
 
-    addPost({
-      image: selectedImageSrc,
-      caption: caption,
-      location: location,
-      filterClass: selectedFilterClass
-    });
+    shareBtn.textContent = 'Sharing...';
+    shareBtn.disabled = true;
 
-    // Trigger feedback and return to feed
-    alert('Post shared successfully! 🚀');
+    try {
+      await addPost({
+        imageFile: selectedImageFile,
+        image: selectedImageSrc,
+        caption: caption,
+        location: location,
+        filterClass: selectedFilterClass
+      });
 
-    // Trigger navigate to home feed
-    const navHome = document.querySelector('[data-view="feed"]');
-    if (navHome) {
-      navHome.click();
+      showToast('Post shared successfully! 🚀', 'success');
+
+      // Trigger navigate to home feed
+      const navHome = document.querySelector('[data-view="feed"]');
+      if (navHome) {
+        navHome.click();
+      }
+    } catch (e) {
+      shareBtn.textContent = 'Share';
+      shareBtn.disabled = false;
+      showToast('Failed to share post', 'error');
     }
   });
 }

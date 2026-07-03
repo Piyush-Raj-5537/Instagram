@@ -71,16 +71,13 @@ function renderStoriesBar(container) {
       fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file && file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = (evt) => {
-            import('./state.js').then(stateModule => {
-              stateModule.addStoryItem(evt.target.result);
+          import('./state.js').then(stateModule => {
+            stateModule.addStoryItem(file).then(() => {
               import('./app.js').then(appModule => {
                 appModule.showToast('Story added to Your Story!', 'success');
               });
             });
-          };
-          reader.readAsDataURL(file);
+          });
         }
       });
 

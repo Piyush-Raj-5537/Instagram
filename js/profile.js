@@ -1,4 +1,4 @@
-import { state, updateProfile, toggleLikePost, addComment, toggleSavePost } from './state.js';
+import { state, updateProfile, toggleLikePost, addComment, toggleSavePost, logout } from './state.js';
 
 let activeProfileTab = 'posts';
 
@@ -81,6 +81,22 @@ function renderProfileHeader(container) {
 
   // Attach Edit Profile Modal trigger
   container.querySelector('#edit-profile-trigger').addEventListener('click', openEditProfileModal);
+  
+  // Attach Settings Log Out options sheet
+  container.querySelector('.profile-settings-btn').addEventListener('click', () => {
+    import('./app.js').then(appModule => {
+      appModule.openOptionsSheet([
+        {
+          label: 'Log Out',
+          type: 'danger',
+          onClick: () => {
+            logout();
+            window.location.reload();
+          }
+        }
+      ]);
+    });
+  });
 }
 
 function renderProfileGrid(container) {
@@ -196,16 +212,16 @@ function openEditProfileModal() {
   const fileInput = modal.querySelector('#avatar-file-input');
   const changePhotoBtn = modal.querySelector('#change-photo-btn');
   const avatarPreview = modal.querySelector('#edit-avatar-preview');
-  let selectedAvatarData = null;
+  let selectedAvatarFile = null;
 
   changePhotoBtn.addEventListener('click', () => fileInput.click());
   fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith('image/')) {
+      selectedAvatarFile = file;
       const reader = new FileReader();
       reader.onload = (event) => {
         avatarPreview.src = event.target.result;
-        selectedAvatarData = event.target.result;
       };
       reader.readAsDataURL(file);
     }
@@ -223,7 +239,7 @@ function openEditProfileModal() {
     const username = modal.querySelector('#edit-username-field').value;
     const bio = modal.querySelector('#edit-bio-field').value;
 
-    updateProfile(name, username, bio, selectedAvatarData);
+    updateProfile(name, username, bio, selectedAvatarFile);
     closeActions();
     
     // Refresh header views

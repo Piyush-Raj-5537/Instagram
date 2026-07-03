@@ -48,11 +48,16 @@ self.addEventListener('activate', (e) => {
 
 // Fetch events
 self.addEventListener('fetch', (e) => {
+  const url = new URL(e.request.url);
+  
+  // Skip caching for API endpoints and new uploaded files
+  if (url.pathname.startsWith('/api') || url.pathname.startsWith('/uploads')) {
+    return; // Use default network behavior
+  }
+
   e.respondWith(
     caches.match(e.request).then((cachedResponse) => {
-      // Return cached response if found, else fetch from network
       return cachedResponse || fetch(e.request).catch(() => {
-        // Fallback for document requests when offline
         if (e.request.mode === 'navigate') {
           return caches.match('./index.html');
         }

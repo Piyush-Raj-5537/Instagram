@@ -1,119 +1,12 @@
-// Global Application State Module
+// Global Application State Module (Fullstack Database Linked)
 
-// Initial State Data
 export const state = {
   unfollowedUsers: [],
   unreadMessagesCount: 0,
   unreadNotificationsCount: 0,
-  currentUser: {
-    username: 'pixel_pioneer',
-    name: 'Piyush Explorer',
-    avatar: 'assets/avatar-current.png',
-    bio: 'Building the future, one line of code at a time. Coding clean clones. ✨\nAndroid & PWA developer.',
-    postsCount: 2,
-    followersCount: 1420,
-    followingCount: 382,
-    posts: [
-      {
-        id: 'user-post-1',
-        username: 'pixel_pioneer',
-        avatar: 'assets/avatar-current.png',
-        image: 'assets/post-2.png',
-        caption: 'Late night sessions, coding this awesome Instagram PWA clone from scratch. Coffee is the real MVP. ☕💻',
-        location: 'Dev Studio',
-        likes: 42,
-        likedBy: [],
-        comments: [
-          { username: 'creative_soul', text: 'Looks clean! Super smooth layout.', time: '2h' },
-          { username: 'neon_dreamer', text: 'Is it installable on Android?', time: '1h' },
-          { username: 'pixel_pioneer', text: 'Yes, full PWA support! 🚀', time: '30m' }
-        ],
-        timestamp: '3h ago',
-        saved: false
-      },
-      {
-        id: 'user-post-2',
-        username: 'pixel_pioneer',
-        avatar: 'assets/avatar-current.png',
-        image: 'assets/post-1.png',
-        caption: 'Neon vibes. Tokyo streets aesthetic. 🌃✨ #cyberpunk #photography',
-        location: 'Shinjuku, Tokyo',
-        likes: 128,
-        likedBy: [],
-        comments: [
-          { username: 'alex_adventures', text: 'Incredible shot! Love the magenta tones.', time: '4h' }
-        ],
-        timestamp: '1d ago',
-        saved: false
-      }
-    ],
-    saved: []
-  },
-
-  posts: [
-    {
-      id: 'feed-post-1',
-      username: 'alex_adventures',
-      avatar: 'assets/app-icon.png', // Fallback/reuse app icon or simple avatar
-      image: 'assets/post-1.png',
-      caption: 'Walking through the neon rain in Shibuya. The city never sleeps. 🌧️🌌 #neon #tokyo #travel',
-      location: 'Shibuya, Japan',
-      likes: 852,
-      likedBy: [],
-      comments: [
-        { username: 'pixel_pioneer', text: 'Stunning capture, Alex! Need to visit soon.', time: '5h' },
-        { username: 'creative_soul', text: 'This grading is insane!', time: '4h' }
-      ],
-      timestamp: '5h ago',
-      saved: false
-    },
-    {
-      id: 'feed-post-2',
-      username: 'creative_soul',
-      avatar: 'assets/avatar-current.png',
-      image: 'assets/post-2.png',
-      caption: 'A clean desk is a productive desk. Starting the day with gratitude and high-focus coding. 🌿☕',
-      location: 'Creative Workspace',
-      likes: 312,
-      likedBy: [],
-      comments: [
-        { username: 'neon_dreamer', text: 'Cozy vibes are off the charts!', time: '1d' }
-      ],
-      timestamp: '1d ago',
-      saved: false
-    }
-  ],
-
-  stories: [
-    {
-      id: 'story-user',
-      username: 'Your Story',
-      avatar: 'assets/avatar-current.png',
-      viewed: false,
-      items: [
-        { type: 'image', url: 'assets/story-1.png', duration: 5000 }
-      ]
-    },
-    {
-      id: 'story-alex',
-      username: 'alex_adventures',
-      avatar: 'assets/app-icon.png',
-      viewed: false,
-      items: [
-        { type: 'image', url: 'assets/post-1.png', duration: 5000 }
-      ]
-    },
-    {
-      id: 'story-neon',
-      username: 'neon_dreamer',
-      avatar: 'assets/story-1.png',
-      viewed: false,
-      items: [
-        { type: 'image', url: 'assets/story-1.png', duration: 5000 }
-      ]
-    }
-  ],
-
+  currentUser: null, // Will hold logged in user details
+  posts: [],
+  stories: [],
   reels: [
     {
       id: 'reel-1',
@@ -138,131 +31,250 @@ export const state = {
       liked: false
     }
   ],
-
-  messages: [
-    {
-      id: 'chat-alex',
-      username: 'alex_adventures',
-      avatar: 'assets/app-icon.png',
-      active: true,
-      chatHistory: [
-        { sender: 'alex_adventures', text: 'Hey there! Loved your latest post.', time: '10:30 AM' },
-        { sender: 'pixel_pioneer', text: 'Thanks Alex! Appreciate the feedback. I am building a clone of Instagram!', time: '10:31 AM' },
-        { sender: 'alex_adventures', text: 'Whoa, that sounds epic. Does it run dynamically?', time: '10:32 AM' }
-      ]
-    },
-    {
-      id: 'chat-creative',
-      username: 'creative_soul',
-      avatar: 'assets/avatar-current.png',
-      active: false,
-      chatHistory: [
-        { sender: 'creative_soul', text: 'Are you using vanilla JS for state management?', time: 'Yesterday' },
-        { sender: 'pixel_pioneer', text: 'Yes! Pure state management modules.', time: 'Yesterday' }
-      ]
-    },
-    {
-      id: 'chat-neon',
-      username: 'neon_dreamer',
-      avatar: 'assets/story-1.png',
-      active: false,
-      chatHistory: [
-        { sender: 'neon_dreamer', text: 'Check out this aesthetic!', time: 'Wednesday' }
-      ]
-    }
-  ],
-
-  notifications: [
-    { id: 1, type: 'like', username: 'alex_adventures', text: 'liked your post.', time: '2h ago', image: 'assets/post-2.png' },
-    { id: 2, type: 'comment', username: 'creative_soul', text: 'commented: "Looks clean! Super smooth..."', time: '3h ago', image: 'assets/post-2.png' },
-    { id: 3, type: 'follow', username: 'neon_dreamer', text: 'started following you.', time: '1d ago', image: null }
-  ]
+  messages: [],
+  notifications: []
 };
 
-// State manipulation helpers
-export function addPost(post) {
-  const newPost = {
-    id: `custom-post-${Date.now()}`,
-    username: state.currentUser.username,
-    avatar: state.currentUser.avatar,
-    image: post.image,
-    caption: post.caption,
-    location: post.location || '',
-    likes: 0,
-    likedBy: [],
-    comments: [],
-    timestamp: 'Just now',
-    saved: false,
-    filterClass: post.filterClass || ''
-  };
+// API Fetch Helpers
+function getToken() {
+  return localStorage.getItem('insta_token');
+}
 
-  // Add to global feed
-  state.posts.unshift(newPost);
-  // Add to user posts
-  state.currentUser.posts.unshift(newPost);
-  state.currentUser.postsCount++;
+export function isAuthenticated() {
+  return !!getToken();
+}
 
-  // Trigger custom state update event
+async function apiFetch(url, options = {}) {
+  const token = getToken();
+  const headers = { ...options.headers };
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  if (options.body && !(options.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  const response = await fetch(url, { ...options, headers });
+  
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.error || `HTTP error! status: ${response.status}`);
+  }
+  
+  return response.json().catch(() => ({}));
+}
+
+// Initialize and Fetch All State Data from backend
+export async function initializeState() {
+  if (!getToken()) {
+    state.currentUser = null;
+    return false;
+  }
+
+  try {
+    // 1. Fetch Current User Profile
+    const me = await apiFetch('/api/auth/me');
+    
+    // Fetch detailed profile for metrics
+    const myProfile = await apiFetch(`/api/users/${me.username}`);
+    state.currentUser = {
+      username: myProfile.username,
+      name: myProfile.name,
+      avatar: myProfile.avatar,
+      bio: myProfile.bio,
+      postsCount: myProfile.postsCount,
+      followersCount: myProfile.followersCount,
+      followingCount: myProfile.followingCount,
+      posts: myProfile.posts,
+      saved: [] // local cached saves
+    };
+
+    // 2. Fetch Feed Posts
+    state.posts = await apiFetch('/api/posts');
+
+    // 3. Fetch Stories
+    state.stories = await apiFetch('/api/stories');
+
+    // 4. Fetch Chats / Threads
+    const chats = await apiFetch('/api/chats');
+    state.messages = [];
+    
+    // Pre-populate chat histories
+    for (const chat of chats) {
+      try {
+        const history = await apiFetch(`/api/messages/${chat.username}`);
+        state.messages.push(history);
+      } catch (e) {
+        state.messages.push({
+          id: chat.id,
+          username: chat.username,
+          avatar: chat.avatar,
+          chatHistory: []
+        });
+      }
+    }
+
+    // 5. Fetch Notifications
+    state.notifications = await apiFetch('/api/notifications');
+    state.unreadNotificationsCount = state.notifications.length;
+
+    console.log("State loaded successfully from database!");
+    return true;
+  } catch (err) {
+    console.error("Failed to load state from database", err);
+    logout();
+    return false;
+  }
+}
+
+// ----------------------------------------------------
+// AUTH ACTIONS
+// ----------------------------------------------------
+
+export async function loginUser(usernameOrEmail, password) {
+  const data = await apiFetch('/api/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ usernameOrEmail, password })
+  });
+  
+  localStorage.setItem('insta_token', data.token);
+  await initializeState();
+  
+  document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'auth' } }));
+  return data.user;
+}
+
+export async function registerUser(username, name, email, password, bio) {
+  const data = await apiFetch('/api/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ username, name, email, password, bio })
+  });
+  
+  localStorage.setItem('insta_token', data.token);
+  await initializeState();
+  
+  document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'auth' } }));
+  return data.user;
+}
+
+export function logout() {
+  localStorage.removeItem('insta_token');
+  state.currentUser = null;
+  state.posts = [];
+  state.stories = [];
+  state.messages = [];
+  state.notifications = [];
+  
+  document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'auth' } }));
+}
+
+// ----------------------------------------------------
+// STATE MUTATORS (API SYNCED)
+// ----------------------------------------------------
+
+export async function addPost(post) {
+  let bodyData;
+  let headers = {};
+
+  if (post.imageFile) {
+    const formData = new FormData();
+    formData.append('image', post.imageFile);
+    formData.append('caption', post.caption);
+    formData.append('location', post.location || '');
+    formData.append('filterClass', post.filterClass || '');
+    bodyData = formData;
+  } else {
+    bodyData = JSON.stringify({
+      imageBase64: post.image,
+      caption: post.caption,
+      location: post.location || '',
+      filterClass: post.filterClass || ''
+    });
+  }
+
+  const newPost = await apiFetch('/api/posts', {
+    method: 'POST',
+    body: bodyData
+  });
+
+  // Reload feed posts & current user post list
+  state.posts = await apiFetch('/api/posts');
+  if (state.currentUser) {
+    const myProfile = await apiFetch(`/api/users/${state.currentUser.username}`);
+    state.currentUser.posts = myProfile.posts;
+    state.currentUser.postsCount = myProfile.postsCount;
+  }
+
   document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'posts' } }));
 }
 
-export function toggleLikePost(postId) {
-  // Check global posts
-  let post = state.posts.find(p => p.id === postId);
-  if (!post) {
-    // Check user posts
-    post = state.currentUser.posts.find(p => p.id === postId);
+export async function toggleLikePost(postId) {
+  const result = await apiFetch(`/api/posts/${postId}/like`, { method: 'POST' });
+  
+  // Find local copy and update
+  let post = state.posts.find(p => p.id === String(postId));
+  if (!post && state.currentUser) {
+    post = state.currentUser.posts.find(p => p.id === String(postId));
   }
 
   if (post) {
-    const userIndex = post.likedBy.indexOf(state.currentUser.username);
-    if (userIndex === -1) {
-      post.likedBy.push(state.currentUser.username);
+    post.liked = result.liked;
+    if (result.liked) {
       post.likes++;
+      if (!post.likedBy.includes(state.currentUser.username)) {
+        post.likedBy.push(state.currentUser.username);
+      }
     } else {
-      post.likedBy.splice(userIndex, 1);
       post.likes--;
+      post.likedBy = post.likedBy.filter(u => u !== state.currentUser.username);
     }
-    document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'posts', postId } }));
-    return true;
   }
-  return false;
+
+  document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'posts', postId } }));
+  return true;
 }
 
-export function addComment(postId, commentText) {
-  let post = state.posts.find(p => p.id === postId);
-  if (!post) {
-    post = state.currentUser.posts.find(p => p.id === postId);
+export async function addComment(postId, commentText) {
+  if (!commentText.trim()) return false;
+
+  const newComment = await apiFetch(`/api/posts/${postId}/comment`, {
+    method: 'POST',
+    body: JSON.stringify({ text: commentText })
+  });
+
+  let post = state.posts.find(p => p.id === String(postId));
+  if (!post && state.currentUser) {
+    post = state.currentUser.posts.find(p => p.id === String(postId));
   }
 
-  if (post && commentText.trim() !== '') {
+  if (post) {
     post.comments.push({
-      username: state.currentUser.username,
-      text: commentText,
+      username: newComment.username,
+      text: newComment.text,
       time: 'Just now'
     });
-    document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'posts', postId } }));
-    return true;
   }
-  return false;
+
+  document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'posts', postId } }));
+  return true;
 }
 
 export function toggleSavePost(postId) {
-  let post = state.posts.find(p => p.id === postId);
-  if (!post) {
-    post = state.currentUser.posts.find(p => p.id === postId);
+  let post = state.posts.find(p => p.id === String(postId));
+  if (!post && state.currentUser) {
+    post = state.currentUser.posts.find(p => p.id === String(postId));
   }
 
   if (post) {
     post.saved = !post.saved;
     if (post.saved) {
-      // Add to saved list if not already there
-      if (!state.currentUser.saved.some(p => p.id === postId)) {
+      if (!state.currentUser.saved.some(p => p.id === String(postId))) {
         state.currentUser.saved.push(post);
       }
     } else {
-      // Remove from saved list
-      state.currentUser.saved = state.currentUser.saved.filter(p => p.id !== postId);
+      state.currentUser.saved = state.currentUser.saved.filter(p => p.id !== String(postId));
     }
     document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'profile' } }));
     return true;
@@ -270,75 +282,108 @@ export function toggleSavePost(postId) {
   return false;
 }
 
-export function sendMessage(chatId, text) {
+export async function sendMessage(chatId, text) {
+  if (!text.trim()) return false;
+
+  // Retrieve receiver username from chat template
   const chat = state.messages.find(m => m.id === chatId);
-  if (chat && text.trim() !== '') {
-    const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    chat.chatHistory.push({
-      sender: state.currentUser.username,
-      text: text,
-      time: timeNow
-    });
-    document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'messages', chatId } }));
-    return true;
-  }
-  return false;
+  if (!chat) return false;
+
+  const sentMessage = await apiFetch('/api/messages', {
+    method: 'POST',
+    body: JSON.stringify({ receiverUsername: chat.username, text })
+  });
+
+  chat.chatHistory.push({
+    sender: state.currentUser.username,
+    text: sentMessage.text,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  });
+
+  document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'messages', chatId } }));
+  return true;
 }
 
-export function updateProfile(name, username, bio, avatar) {
-  state.currentUser.name = name;
-  state.currentUser.username = username;
-  state.currentUser.bio = bio;
-  if (avatar) {
-    state.currentUser.avatar = avatar;
-    // Update avatar across user posts
-    state.currentUser.posts.forEach(p => p.avatar = avatar);
+export async function updateProfile(name, username, bio, avatarFile) {
+  let bodyData;
+  if (avatarFile) {
+    const formData = new FormData();
+    formData.append('avatar', avatarFile);
+    formData.append('name', name);
+    formData.append('bio', bio);
+    bodyData = formData;
+  } else {
+    bodyData = JSON.stringify({ name, bio });
   }
+
+  await apiFetch('/api/users/profile', {
+    method: 'PUT',
+    body: bodyData
+  });
+
+  // Re-fetch current profile
+  await initializeState();
   document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'profile' } }));
 }
 
-export function addStoryItem(imageSrc) {
-  let userStory = state.stories.find(s => s.id === 'story-user');
-  if (!userStory) {
-    userStory = {
-      id: 'story-user',
-      username: 'Your Story',
-      avatar: state.currentUser.avatar,
-      viewed: false,
-      items: []
-    };
-    state.stories.unshift(userStory);
-  }
-  
-  userStory.items.push({
-    type: 'image',
-    url: imageSrc,
-    duration: 5000
+export async function addStoryItem(imageFile) {
+  const formData = new FormData();
+  formData.append('image', imageFile);
+
+  await apiFetch('/api/stories', {
+    method: 'POST',
+    body: formData
   });
-  
-  userStory.viewed = false;
+
+  // Refresh stories from server
+  state.stories = await apiFetch('/api/stories');
   document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'stories' } }));
 }
 
-export function addNotification(notif) {
-  const newNotif = {
-    id: Date.now(),
-    type: notif.type, // 'like', 'comment', 'follow'
+export async function addNotification(notif) {
+  // Save notification to backend
+  const newNotif = await apiFetch('/api/notifications', {
+    method: 'POST',
+    body: JSON.stringify({
+      type: notif.type,
+      fromUsername: notif.username,
+      text: notif.text,
+      imageUrl: notif.image || ''
+    })
+  }).catch(() => {
+    // Fallback locally
+    return {
+      id: Date.now(),
+      type: notif.type,
+      username: notif.username,
+      text: notif.text,
+      time: 'Just now',
+      image: notif.image || null
+    };
+  });
+
+  state.notifications.unshift({
+    id: newNotif.id,
+    type: notif.type,
     username: notif.username,
     text: notif.text,
     time: 'Just now',
     image: notif.image || null
-  };
-  
-  state.notifications.unshift(newNotif);
+  });
   state.unreadNotificationsCount++;
-  
-  document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'notifications', notification: newNotif } }));
+
+  document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'notifications' } }));
 }
 
-export function unfollowUser(username) {
+export async function unfollowUser(username) {
+  await apiFetch(`/api/users/${username}/follow`, { method: 'POST' });
+  
   if (!state.unfollowedUsers.includes(username)) {
     state.unfollowedUsers.push(username);
   }
+  
+  // Reload posts from backend
+  state.posts = await apiFetch('/api/posts');
+
   document.dispatchEvent(new CustomEvent('state-updated', { detail: { type: 'feed' } }));
 }

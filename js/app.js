@@ -1,6 +1,6 @@
 // Main Application Bootstrap & Routing Module
 
-import { state } from './state.js';
+import { state, isAuthenticated, initializeState, logout } from './state.js';
 import { renderFeed } from './feed.js';
 import { renderExplore } from './explore.js';
 import { renderReels } from './reels.js';
@@ -12,29 +12,67 @@ import { renderNotifications } from './notifications.js';
 let currentActiveView = 'feed';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize PWA Service Worker for offline and Android install support
-  registerServiceWorker();
-  
-  // 2. Setup Route / View navigation links
-  initializeNavigation();
+  const shell = document.getElementById('app-shell');
 
-  // 3. Setup Theme Switcher (Dark / Light Mode)
-  initializeThemeToggle();
+  // Check user authentication
+  if (!isAuthenticated()) {
+    shell.classList.add('logged-out');
+    import('./auth.js').then(authModule => {
+      authModule.renderLogin(document.getElementById('app-viewer'));
+    });
+    return;
+  }
 
-  // 4. Listen for client state changes to hot-reload active panels
-  initializeStateListener();
+  // Initialize data from SQLite server database
+  initializeState().then(success => {
+    if (!success) {
+      shell.classList.add('logged-out');
+      import('./auth.js').then(authModule => {
+        authModule.renderLogin(document.getElementById('app-viewer'));
+      });
+      return;
+    }
 
-  // 5. Setup PWA Install Prompts (particularly helpful on Android)
-  initializePWAInstall();
+    // Set avatars correctly on start
+    const avatarCurrents = document.querySelectorAll('#sidebar-avatar-img, #bottom-avatar-img');
+    avatarCurrents.forEach(img => {
+      if (img && state.currentUser) img.src = state.currentUser.avatar;
+    });
 
-  // 6. Setup Ellipsis Bottom Sheet backdrop dismiss
-  setupOptionsSheetBackdrop();
+    // 1. Initialize PWA Service Worker for offline and Android install support
+    registerServiceWorker();
+    
+    // 2. Setup Route / View navigation links
+    initializeNavigation();
 
-  // 7. Start the Activity/Notification simulator
-  startLiveSimulator();
+    // 3. Setup Theme Switcher (Dark / Light Mode)
+    initializeThemeToggle();
 
-  // 8. Bootstrap Initial Screen
-  switchView('feed');
+    // 4. Listen for client state changes to hot-reload active panels
+    initializeStateListener();
+
+    // 5. Setup PWA Install Prompts (particularly helpful on Android)
+    initializePWAInstall();
+
+    // 6. Setup Ellipsis Bottom Sheet backdrop dismiss
+    setupOptionsSheetBackdrop();
+
+    // 7. Start the Activity/Notification simulator
+    startLiveSimulator();
+
+    // 8. Setup logout button listener
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        logout();
+        window.location.reload();
+      });
+    }
+
+    // 9. Bootstrap Initial Screen
+    switchView('feed');
+  });
 });
 
 function registerServiceWorker() {

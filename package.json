@@ -4,9 +4,17 @@
   "description": "A high-fidelity Instagram Clone optimized for Web and Android (PWA).",
   "main": "index.html",
   "scripts": {
-    "dev": "lite-server"
+    "dev": "node server.js"
   },
   "devDependencies": {
     "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.2.0",
+    "sqlite3": "^6.0.1"
   }
 }
