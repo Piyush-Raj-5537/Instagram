@@ -380,8 +380,8 @@ function renderPostDetailsDialog(modal, post) {
   // Like click
   likeBtn.addEventListener('click', handleLike);
 
-  function handleLike() {
-    const updated = toggleLikePost(post.id);
+  async function handleLike() {
+    const updated = await toggleLikePost(post.id);
     if (updated) {
       const currentlyLiked = post.likedBy && post.likedBy.includes(state.currentUser.username);
       likeBtn.classList.toggle('liked', currentlyLiked);
@@ -403,10 +403,10 @@ function renderPostDetailsDialog(modal, post) {
   });
 
   // Submit comment
-  const submitAction = () => {
+  const submitAction = async () => {
     const txt = commentInput.value;
     if (txt.trim()) {
-      addComment(post.id, txt);
+      await addComment(post.id, txt);
       commentInput.value = '';
       // Refresh details box list
       renderPostDetailsDialog(modal, post);

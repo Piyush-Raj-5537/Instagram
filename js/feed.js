@@ -238,8 +238,8 @@ function renderPosts(container) {
     // Single Tap Like Button
     likeBtn.addEventListener('click', handleLike);
 
-    function handleLike() {
-      const updated = toggleLikePost(post.id);
+    async function handleLike() {
+      const updated = await toggleLikePost(post.id);
       if (updated) {
         const isLiked = post.likedBy && post.likedBy.includes(state.currentUser.username);
         likeBtn.classList.toggle('liked', isLiked);
@@ -261,10 +261,10 @@ function renderPosts(container) {
     });
 
     // Submit Comment
-    const submitCommentAction = () => {
+    const submitCommentAction = async () => {
       const txt = commentField.value;
       if (txt.trim()) {
-        addComment(post.id, txt);
+        await addComment(post.id, txt);
         commentField.value = '';
         renderPosts(container); // Re-render feeds to show comments
       }
